@@ -28,7 +28,7 @@
             android:name="word"
             app:argType="string" />
         <argument
-            android:name="containerTransitionName"
-            app:argType="string" />
+            android:name="mode"
+            app:argType="com.shahin.redesign.TransitionMode" />
     </fragment>
 </navigation>

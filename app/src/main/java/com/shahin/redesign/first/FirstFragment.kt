@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.shahin.redesign.R
+import com.shahin.redesign.TransitionMode
 import com.shahin.redesign.databinding.FragmentFirstBinding
 import com.shahin.redesign.extensions.setRootLayoutBottomMargin
 import com.shahin.redesign.extensions.setVisibleOrGone
@@ -148,22 +149,17 @@ class FirstFragment : Fragment() {
     }
 
     private fun navigateToSecondActivity(word: String) {
-        var containerTransitionName = ""
-        if (viewModel.motionLayoutProgress.value == 0.0f) {
-            // animation is on start mode - English is at the left
-            containerTransitionName = getString(R.string.container_transition_1)
-            binding.editTextLayout.transitionName =  containerTransitionName
-        } else {
-            containerTransitionName = getString(R.string.container_transition_2)
-            binding.editTextLayout.transitionName = containerTransitionName
-        }
         findNavController().navigate(
             directions = FirstFragmentDirections.actionFirstFragmentToSecondFragment(
                 word = word,
-                containerTransitionName = containerTransitionName
+                mode = if (viewModel.motionLayoutProgress.value == 0.0f) {
+                    TransitionMode.English
+                } else {
+                    TransitionMode.Spanish
+                }
             ),
             navigatorExtras = FragmentNavigatorExtras(
-                binding.editTextLayout to containerTransitionName,
+                binding.editTextLayout to getString(R.string.container_transition_1),
 //                binding.editText to editTexTransitionName
             )
         )
@@ -178,7 +174,6 @@ class FirstFragment : Fragment() {
         super.onResume()
         if (viewModel.fastReEntry.value == false) {
             requestEditTextFocus()
-            updateMotionLayoutState()
         }
     }
 
@@ -205,12 +200,7 @@ class FirstFragment : Fragment() {
     // the reentry transition animation
     // Also makes the UI faster as transition disables if yo remove this block
     override fun getReenterTransition(): Any? {
-        if (viewModel.motionLayoutProgress.value == 0.0f) {
-            // animation is on start mode - English is at the left
-            binding.editTextLayout.transitionName =  getString(R.string.container_transition_1)
-        } else {
-            binding.editTextLayout.transitionName = getString(R.string.container_transition_2)
-        }
+        updateMotionLayoutState()
         if (viewModel.fastReEntry.value == true) {
             requestEditTextFocus()
         }

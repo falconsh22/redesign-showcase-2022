@@ -24,6 +24,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
+            android:transitionName="@string/container_transition_1"
             android:background="@drawable/background_text_translation"
             app:layout_constraintBottom_toTopOf="@+id/cardView_dialectSwitcher"
             app:layout_constraintEnd_toEndOf="parent"

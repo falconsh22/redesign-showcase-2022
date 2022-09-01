@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.*
 import com.google.android.material.transition.MaterialContainerTransform
 import com.shahin.redesign.R
+import com.shahin.redesign.TransitionMode
 import com.shahin.redesign.databinding.FragmentSecondBinding
 import com.shahin.redesign.first.FirstViewModel
 
@@ -39,6 +40,15 @@ class SecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+
+        when (navArgs.mode) {
+            TransitionMode.English -> {
+                binding.cardView1.transitionName = getString(R.string.container_transition_1)
+            }
+            TransitionMode.Spanish -> {
+                binding.cardView2.transitionName = getString(R.string.container_transition_1)
+            }
+        }
 
         val changeBounds = MaterialContainerTransform().apply {
             scrimColor = Color.TRANSPARENT
@@ -67,23 +77,27 @@ class SecondFragment : Fragment() {
                 }
             })
 
-        when (navArgs.containerTransitionName) {
-            getString(R.string.container_transition_1) -> {
-                binding.text1.setText(navArgs.word)
-                binding.text2.setText("Spanish translation")
+        when (navArgs.mode) {
+            TransitionMode.English -> {
+                binding.text1.text = navArgs.word
+                binding.text2.text = "Spanish translation"
             }
-            getString(R.string.container_transition_2) -> {
-                binding.text1.setText("English translation")
-                binding.text2.setText(navArgs.word)
+            TransitionMode.Spanish -> {
+                binding.text1.text = "English translation"
+                binding.text2.text = navArgs.word
             }
         }
 
         binding.cardView1.setOnClickListener {
+            binding.cardView1.transitionName = getString(R.string.container_transition_1)
+            binding.cardView2.transitionName = null
             viewModel.updateMotionLayoutProgress(0.0f)
             navigateBack()
         }
 
         binding.cardView2.setOnClickListener {
+            binding.cardView1.transitionName = null
+            binding.cardView2.transitionName = getString(R.string.container_transition_1)
             viewModel.updateMotionLayoutProgress(1.0f)
             navigateBack()
         }
