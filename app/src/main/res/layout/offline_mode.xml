@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/dimen_16">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="Faster Reentry?"
+        android:gravity="start|center_vertical"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/airplaneModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:thumbIcon="@drawable/ic_baseline_local_airport_24" />
+</LinearLayout>
